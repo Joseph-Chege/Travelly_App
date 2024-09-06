@@ -77,11 +77,20 @@ class DestinationList(Resource):
         return destination.to_dict(), 201
     
 
+class DestinationDetail(Resource):
+    def get(self, id):
+        destination = Destination.query.filter(Destination.id == id).first()
+        if not destination:
+            return {'message': 'Destination not found.'}, 404
+        return destination.to_dict(), 200
+
+    
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(Signup, '/signup')
 api.add_resource(LogIn, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(DestinationList, '/destinations')
+api.add_resource(DestinationDetail, '/destinations/<int:id>')
 
 
 if __name__ == '__main__':
