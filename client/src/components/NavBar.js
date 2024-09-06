@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar({ user, setUser }) {
   function handleLogoutClick() {
@@ -10,8 +13,11 @@ function NavBar({ user, setUser }) {
     });
   }
 
+
+    
+
   return (
-    <header className=" bg-green-600 p-4 flex items-center justify-between shadow-md fixed top-0 w-full">
+    <header className=" bg-green-600 p-4 flex items-center justify-between shadow-md fixed top-0 w-full z-50">
       <div className="flex items-center space-x-2">
         <Link
           to="/"
@@ -20,12 +26,31 @@ function NavBar({ user, setUser }) {
           Travelly
         </Link>
       </div>
+
       <div className="flex-1"></div>
+      <Link to='/destinations/your-destinations'>
+        <div className="mr-6">
+          <span className="text-2xl"
+          >
+            <FontAwesomeIcon icon={faCartShopping} />
+          </span>
+        </div>
+      </Link>
+
+      <div className="mr-2">
+        {user ? (
+          <span className="text-2xl">
+            <FontAwesomeIcon icon={faUser} />
+          </span>
+        ) : null}
+      </div>
+
+      <div className="font-semibold text-xl">{user ? user.username : null}</div>
       <div>
         {user ? (
           <button
             onClick={handleLogoutClick}
-            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 shadow-sm"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 shadow-sm ml-4"
           >
             Logout
           </button>

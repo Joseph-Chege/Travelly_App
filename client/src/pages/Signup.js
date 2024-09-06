@@ -117,7 +117,7 @@ function Signup({ setUser }) {
               <Link to="/login">
                 <button
                   type="login"
-                  className="w-32 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors shadow-sm ml-8"
+                  className="w-32 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors shadow-sm ml-8 mt-2"
                 >
                   Log In
                 </button>
