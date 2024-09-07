@@ -16,6 +16,7 @@ class CheckSession(Resource):
         else:
             return {'message': 'Session expired or invalid.'}, 401
         
+    
 
 class Signup(Resource):
     def post(self):
@@ -58,17 +59,23 @@ class Logout(Resource):
 
 class DestinationList(Resource):
     def get(self):
+        
         destinations = Destination.query.all()
         return [destination.to_dict() for destination in destinations]
     
     def post(self):
+        if not session.get('user_id'):
+            return {'message': 'Admin privileges required.'}, 403
+        
         name = request.json.get('name')
         image = request.json.get('image')
         description = request.json.get('description')
         location = request.json.get('location')
         category = request.json.get('category')
+        price = request.json.get('price')
 
-        if not name or not image or not description or not location or not category:
+
+        if not name or not image or not description or not location or not category or not price:
             return {'message': 'All fields are required.'}, 400
 
         destination = Destination(name=name, image=image, description=description, location=location, category=category)
@@ -83,14 +90,120 @@ class DestinationDetail(Resource):
         if not destination:
             return {'message': 'Destination not found.'}, 404
         return destination.to_dict(), 200
-
     
-api.add_resource(CheckSession, '/check_session')
-api.add_resource(Signup, '/signup')
-api.add_resource(LogIn, '/login')
-api.add_resource(Logout, '/logout')
-api.add_resource(DestinationList, '/destinations')
-api.add_resource(DestinationDetail, '/destinations/<int:id>')
+    def post(self, id):
+        destination = Destination.query.filter(Destination.id == id).first()
+        if not destination:
+            return {'message': 'Destination not found.'}, 404
+        
+        name = request.json.get('name')
+        image = request.json.get('image')
+        description = request.json.get('description')
+        location = request.json.get('location')
+        category = request.json.get('category')
+        price = request.json.get('price')
+
+        if not name and not image and not description and not location and not category and not price:
+            return {'message': 'At least one field needs to be updated.'}, 400
+        
+        destination.name = name
+        destination.image = image
+        destination.description = description
+        destination.location = location
+        destination.category = category
+        destination.price = price
+        db.session.commit()
+        return destination.to_dict(), 200
+    
+    def delete(self, id):
+        destination = Destination.query.filter(Destination.id == id).first()
+        if not destination:
+            return {'message': 'Destination not found.'}, 404
+        
+        db.session.delete(destination)
+        db.session.commit()
+        return {'message': 'Destination deleted successfully.'}, 200
+     
+
+class AdminDestinationResource(Resource):
+    def check_admin_privileges(self):
+        user_id = session.get('user_id')
+        user = User.query.filter_by(id=user_id).first()
+        if user and user.is_admin:
+            return True
+        return {'error': 'Admin privileges required'}, 403
+
+    def get(self):
+        if self.check_admin_privileges() is not True:
+            return self.check_admin_privileges()
+
+        destinations = Destination.query.all()
+        return [destination.to_dict() for destination in destinations], 200
+
+    def post(self):
+        if self.check_admin_privileges() is not True:
+            return self.check_admin_privileges()
+
+        data = request.get_json()
+        required_fields = ['name', 'image', 'description', 'location', 'category', 'price']
+        
+        if not all(field in data for field in required_fields):
+            return {'message': 'All fields are required.'}, 400
+
+        new_destination = Destination(
+            name=data['name'],
+            image=data['image'],
+            description=data['description'],
+            location=data['location'],
+            category=data['category'],
+            price=data['price']
+
+        )
+        db.session.add(new_destination)
+        db.session.commit()
+        return new_destination.to_dict(), 201
+
+    def put(self, id):
+        if self.check_admin_privileges() is not True:
+            return self.check_admin_privileges()
+
+        destination = Destination.query.get(id)
+        if not destination:
+            return {'message': 'Destination not found.'}, 404
+
+        data = request.get_json()
+        for field in ['name', 'image', 'description', 'location', 'category', 'price']:
+            if field in data:
+                setattr(destination, field, data[field])
+
+        db.session.commit()
+        return destination.to_dict(), 200
+
+    def delete(self, id):
+        if self.check_admin_privileges() is not True:
+            return self.check_admin_privileges()
+
+        destination = Destination.query.get(id)
+        if not destination:
+            return {'message': 'Destination not found.'}, 404
+
+        db.session.delete(destination)
+        db.session.commit()
+        return {'message': 'Destination deleted successfully.'}, 200
+
+
+
+api.add_resource(CheckSession, '/check_session', endpoint='/check_session')
+api.add_resource(Signup, '/signup', endpoint='/signup')
+api.add_resource(LogIn, '/login', endpoint='/login')
+api.add_resource(Logout, '/logout', endpoint='/logout')
+api.add_resource(DestinationList, '/destinations', endpoint='/destinations')
+api.add_resource(DestinationDetail, '/destinations/<int:id>', endpoint='/destinations/<int:id>')
+api.add_resource(AdminDestinationResource, '/admin/destinations', endpoint='/admin/destinations')
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.sql import func
 
 from config import db, bcrypt
 
@@ -14,10 +15,11 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String(64), unique=True, index=True)
     _password_hash = db.Column(db.String(128))
     email = db.Column(db.String(120), unique=True)
-    created_at = db.Column(db.DateTime)
+    is_admin = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=func.now())
 
     reviews = db.relationship("Review", back_populates="user", cascade='all, delete-orphan')
-    destinations = association_proxy('reviews', 'user')
+    destinations = association_proxy('reviews', 'destination')
 
     @hybrid_property
     def password_hash(self):
@@ -25,13 +27,15 @@ class User(db.Model, SerializerMixin):
     
     @password_hash.setter
     def password_hash(self, password):
+        if isinstance(password, bytes):
+            password = password.decode('utf-8') 
         password_hash = bcrypt.generate_password_hash(
-            password.encode('utf-8'))
+            password)
         self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(
-            self.password_hash, password.encode('utf-8'))
+            self.password_hash, password)
     
     @validates('password_hash')
     def validate_password_hash(self, key, password_hash):
@@ -55,10 +59,12 @@ class Destination(db.Model, SerializerMixin):
     location = db.Column(db.String(120))
     category = db.Column(db.String)
     rating = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime)
+    price = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime, default=func.now())
 
     reviews = db.relationship("Review", back_populates="destination", cascade='all, delete-orphan')
-    destinations = association_proxy('reviews', 'destination')
+    users = association_proxy('reviews', 'user')
+   
 
     def __repr__(self):
         return f"Destination {self.name}, {self.location}, {self.category}, {self.rating}"
@@ -71,7 +77,7 @@ class Review(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.Text)
-    created_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=func.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     destination_id = db.Column(db.Integer, db.ForeignKey('destinations.id'))
@@ -83,6 +89,3 @@ class Review(db.Model, SerializerMixin):
         return f"Review {self.comment}, {self.created_at}, {self.user_id}, {self.destination_id}"
 
 
-
-    
-    

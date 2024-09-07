@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React  from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 function StarRating({ rating }) {
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
@@ -36,23 +37,30 @@ function Destination({ destination }) {
               {name}
             </h2>
 
-            <p className="text-lg text-gray-600 mb-2">{location}</p>
+            <div className="flex flex-wrap items-center space-x-2">
+            <FontAwesomeIcon icon={faLocationDot} size='xl' />
+            <p className="text-lg text-gray-600 mt-2  mb-4">{location}</p>
+            </div>
+
+            
             <p className="text-gray-700 text-base mb-4">{description}</p>
             <p className="text-gray-500 text-sm mb-4">Category: {category}</p>
-            <p className="text-gray-500 text-sm mb-4">Price: {price}</p>
+            <p className="text-gray-500 text-sm mb-4">Price: {price} $ per day</p>
           </div>
           <div>
-            <p className="flex gap-1 text-gray-700 font-semibold mb-2">
-              {reviews.length}{" "}
-              {reviews.length <= 1 ? <p>Review</p> : <p>Reviews</p>}
-            </p>
             <div>
               <span className="text-gray-500 text-sm mr-2">
-                <StarRating rating={destination.rating} />
+                Rating: <StarRating rating={destination.rating} />
               </span>
+              <p className="flex gap-1 text-gray-700 font-semibold mb-2">
+                {reviews.length}{" "}
+                {reviews.length <= 1 ? <p>Review</p> : <p>Reviews</p>}
+              </p>
             </div>
             <div className="text-gray-600 text-sm mb-4">
               {reviews[0].comment}
+            </div>
+            <div className="text-gray-600 text-sm mb-4">
             </div>
             <hr className="border-gray-300 my-4" />
           </div>

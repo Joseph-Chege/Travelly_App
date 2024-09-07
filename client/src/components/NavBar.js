@@ -13,9 +13,6 @@ function NavBar({ user, setUser }) {
     });
   }
 
-
-    
-
   return (
     <header className=" bg-green-600 p-4 flex items-center justify-between shadow-md fixed top-0 w-full z-50">
       <div className="flex items-center space-x-2">
@@ -28,12 +25,13 @@ function NavBar({ user, setUser }) {
       </div>
 
       <div className="flex-1"></div>
-      <Link to='/destinations/your-destinations'>
+      <Link to="/destinations/your-destinations">
         <div className="mr-6">
-          <span className="text-2xl"
-          >
-            <FontAwesomeIcon icon={faCartShopping} />
-          </span>
+          {user ? (
+            <span className="text-2xl">
+              <FontAwesomeIcon icon={faCartShopping} />
+            </span>
+          ) : null}
         </div>
       </Link>
 
