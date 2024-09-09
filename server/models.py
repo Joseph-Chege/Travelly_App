@@ -79,7 +79,7 @@ class Review(db.Model, SerializerMixin):
     comment = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=func.now())
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
     destination_id = db.Column(db.Integer, db.ForeignKey('destinations.id'))
 
     user = db.relationship("User", back_populates="reviews")

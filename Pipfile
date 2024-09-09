@@ -28,6 +28,9 @@ sqlalchemy-serializer = "1.4.22"
 typing_extensions = "4.12.2"
 Werkzeug = "3.0.4"
 wheel = "0.44.0"
+gunicorn = "*"
+honcho = "*"
+python-dotenv = "*"
 
 [dev-packages]
 Faker = "28.1.0"

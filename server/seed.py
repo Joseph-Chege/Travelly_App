@@ -26,7 +26,7 @@ with app.app_context():
     db.session.commit()
 
     users = []
-    for _ in range(10):
+    for _ in range(5):
         user = User(
             username=fake.user_name(),
             email=fake.email(),
@@ -39,7 +39,7 @@ with app.app_context():
 
     
     destinations = []
-    for _ in range(20):
+    for _ in range(5):
         destination = Destination(
             name=fake.city(),
             image=fake.image_url(),
@@ -57,7 +57,7 @@ with app.app_context():
 
     
     for destination in destinations:
-        for _ in range(random.randint(1, 30)):
+        for _ in range(random.randint(1, 10)):
             review = Review(
                 comment=fake.text(max_nb_chars=200),
                 user_id=random.choice(users).id,

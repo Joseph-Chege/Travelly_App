@@ -1,8 +1,8 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import Signup from "../pages/Signup";
+import { Link } from "react-router-dom";
 
-function HomePageNotLoggedIn({ setUser }) {
+
+function HomePageNotLoggedIn({ setUser  }) {
   return (
     <div
       className="flex items-center justify-center h-screen bg-cover bg-center mx-32"

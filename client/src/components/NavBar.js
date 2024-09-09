@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
-function NavBar({ user, setUser }) {
+function NavBar({ user, setUser, }) {
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
@@ -23,6 +23,7 @@ function NavBar({ user, setUser }) {
           Travelly
         </Link>
       </div>
+      
 
       <div className="flex-1"></div>
       <Link to="/destinations/your-destinations">
