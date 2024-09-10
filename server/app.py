@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+import json
 
-from flask import request, session
+from flask import request, session, jsonify
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
@@ -123,6 +124,7 @@ class DestinationDetail(Resource):
         db.session.delete(destination)
         db.session.commit()
         return {'message': 'Destination deleted successfully.'}, 200
+    
      
 
 class AdminDestinationResource(Resource):
@@ -163,7 +165,7 @@ class AdminDestinationResource(Resource):
         db.session.commit()
         return new_destination.to_dict(), 201
 
-    def put(self, id):
+    def patch(self, id):
         if self.check_admin_privileges() is not True:
             return self.check_admin_privileges()
 
@@ -190,6 +192,59 @@ class AdminDestinationResource(Resource):
         db.session.delete(destination)
         db.session.commit()
         return {'message': 'Destination deleted successfully.'}, 200
+    
+
+class ReviewList(Resource):
+    def get(self):
+        reviews = Review.query.all()  # Retrieve all reviews
+        return [review.to_dict() for review in reviews], 200
+
+    def post(self):
+        if 'user_id' in session and session['user_id'] is not None:
+                user_id = session['user_id']
+                comment = request.json.get('comment')
+                destination_id = request.json.get('destination_id')
+
+                destination = Destination.query.filter_by(id=destination_id).first()
+
+                if destination:
+                    new_review = Review(comment=comment, user_id=user_id, destination_id=destination_id)
+                    try:
+                        db.session.add(new_review)
+                        db.session.commit()
+                        return new_review.to_dict(), 201
+                    except IntegrityError:
+                        db.session.rollback()
+                        return {'message': 'Review failed.'}, 409
+                else:
+                    return {'message': 'Destination'}, 201
+
+        
+
+class ReviewDetail(Resource):
+    def get(self, id):
+        review = Review.query.filter_by(id=id).first()
+
+        if not review:
+            return jsonify({'error': 'Review not found!'}), 404
+        
+        return review.to_dict(), 200
+    
+    def delete(self, id):
+        review = Review.query.filter_by(id=id).first()
+
+        if not review:
+            return jsonify({'error': 'Review not found!'}), 404
+
+        db.session.delete(review)
+        db.session.commit()
+
+        return jsonify({'message': 'Review deleted successfully!'}), 200
+    
+
+        
+        
+       
 
 
 
@@ -200,9 +255,10 @@ api.add_resource(Logout, '/logout', endpoint='/logout')
 api.add_resource(DestinationList, '/destinations', endpoint='/destinations')
 api.add_resource(DestinationDetail, '/destinations/<int:id>', endpoint='/destinations/<int:id>')
 api.add_resource(AdminDestinationResource, '/admin/destinations', endpoint='/admin/destinations')
-
-
-
+api.add_resource(ReviewList, '/reviews')
+api.add_resource(ReviewDetail, '/reviews/<int:id>', endpoint='/reviews/<int:id>')
+api.add_resource(ReviewList, '/destinations/<int:id>/reviews', endpoint='/destinations/<int:id>/reviews')
+ 
 
 
 

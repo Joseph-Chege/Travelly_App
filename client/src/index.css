@@ -7,3 +7,54 @@
     font-family: 'Poppins', sans-serif;
   }
 }
+/* Log in screen */
+@layer utilities {
+  .bg-custom-image {
+    @apply bg-cover bg-center;
+    background-image: url('./Images/nathan-cima-4aqH2utAPAs-unsplash.jpg');
+  }
+}
+
+/* Beach image */
+@layer utilities {
+  .bg-custom-image-1 {
+    @apply bg-cover bg-center;
+    background-image: url('./Images/maarten-van-den-heuvel-Siuwr3uCir0-unsplash.jpg');
+  }
+}
+
+/* Adventure image */
+@layer utilities {
+  .bg-custom-image-2 {
+    @apply bg-cover bg-center;
+    background-image: url('./Images/scott-goodwill-y8Ngwq34_Ak-unsplash.jpg');
+  }
+}
+
+/* Romantic image */
+@layer utilities {
+  .bg-custom-image-3 {
+    @apply bg-cover bg-center;
+    background-image: url('./Images/dex-ezekiel-HB__aFWJJSU-unsplash.jpg');
+  }
+}
+
+/* Parks image */
+@layer utilities {
+  .bg-custom-image-4 {
+    @apply bg-cover bg-center;
+    background-image: url('./Images/leo_visions-Gsrk7FduXsE-unsplash.jpg');
+  }
+}
+
+/* Local image */
+@layer utilities {
+  .bg-custom-image {
+    @apply bg-cover bg-center;
+    background-image: url('./Images/maarten-van-den-heuvel-Siuwr3uCir0-unsplash.jpg');
+  }
+}
+
+
+
+

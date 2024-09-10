@@ -86,18 +86,12 @@ function DestinationList({ destinations }) {
       </h1>
       <div className="flex justify-around gap-4 mr-16 ml-16">
         <div
-          className={`cursor-pointer text-2xl font-semibold bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 transform hover:scale-105 text-white border ${
+          className={`cursor-pointer text-2xl font-semibold bg-beach-img bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 transform hover:scale-105 text-white border ${
             selectedCategory === "Beach"
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
-          } flex items-center justify-center w-full h-50 md:w-80`}
+          } flex items-center bg-custom-image-1 justify-center w-full h-50 md:w-80`}
           onClick={toggleBeachList}
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1696095327723-b43eaef159be?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI2fHx2YWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
         >
           <div className="mt-40">
             Beach
@@ -109,14 +103,8 @@ function DestinationList({ destinations }) {
             selectedCategory === "Adventure"
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
-          } flex items-center justify-center w-full h-50 md:w-80`}
+          } flex items-center bg-custom-image-2 justify-center w-full h-50 md:w-80`}
           onClick={toggleAdventureList}
-          style={{
-            backgroundImage:
-              "url(https://plus.unsplash.com/premium_photo-1675484743424-288808877324?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGFkdmVudHVyZXxlbnwwfHwwfHx8MA%3D%3D)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
         >
           <div className="mt-40">
             Adventure
@@ -128,14 +116,8 @@ function DestinationList({ destinations }) {
             selectedCategory === "Romantic"
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
-          } flex items-center justify-center w-full h-50 md:w-80`}
+          } flex items-center bg-custom-image-3 justify-center w-full h-50 md:w-80`}
           onClick={toggleRomanticList}
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1605152912570-e95809793d2b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTl8fHJvbWFudGljJTIwdmFjYXRpb258ZW58MHx8MHx8fDA%3D)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
         >
           <div className="mt-40">
             Romantic
@@ -147,14 +129,8 @@ function DestinationList({ destinations }) {
             selectedCategory === "Park"
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
-          } flex items-center justify-center w-full h-50 md:w-80`}
+          } flex items-center bg-custom-image-4 justify-center w-full h-50 md:w-80`}
           onClick={toggleParksList}
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1621874743633-61f462bb69ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHBhcmtzfGVufDB8fDB8fHww)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
         >
           <div className="mt-40">
             Parks

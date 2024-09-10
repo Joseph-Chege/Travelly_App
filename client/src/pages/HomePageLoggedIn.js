@@ -13,6 +13,8 @@ function HomePageLoggedIn({ user }) {
     });
   }, []);
 
+
+
   return (
     <div>
       {user.is_admin ? (

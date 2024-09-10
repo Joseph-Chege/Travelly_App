@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 function HomePageNotLoggedIn({ setUser  }) {
   return (
     <div
-      className="flex items-center justify-center h-screen bg-cover bg-center mx-32"
-      style={{ backgroundImage: 'url()' }}
+      className="flex items-center justify-center h-screen bg-custom-image mt-50 bg-cover bg-center mx-32"
+
     >
       <div className="bg-white bg-opacity-75 p-8 rounded-lg shadow-lg text-center max-w-md">
         <h1 className="text-2xl font-bold text-green-700 mb-4">

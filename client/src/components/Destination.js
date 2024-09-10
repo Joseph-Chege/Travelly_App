@@ -27,7 +27,7 @@ function Destination({ destination }) {
     <Link to={`/destinations/${id}`}>
       <div className="flex flex-col md:flex-row max-w-4xl rounded-lg shadow-lg bg-white mx-auto my-8 border border-gray-200 p-6">
         <img
-          className="w-full md:w-1/2 h-64 md:h-auto object-cover rounded-lg mb-4 md:mb-0 md:mr-6"
+          className="w-64 h-64 md:w-64 md:h-64 object-cover rounded-lg mb-4 md:mb-0 md:mr-6"
           src={image}
           alt={name}
         />

@@ -8,6 +8,7 @@ import HomePageNotLoggedIn from "../pages/HomePageNotLoggedIn";
 import DestinationDetail from "../pages/DestinationDetail";
 import YourDestinations from "../pages/YourDestinations";
 import DestinationAdmin from "../pages/DestinationAdmin";
+import AddReviewForm from "../pages/AddReviewForm";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -59,6 +60,12 @@ function App() {
                   <DestinationDetail
                     onAddToBookedDestinations={onAddToBookedDestinations}
                   />
+                }
+              />
+              <Route
+                path="/destinations/:id/reviews"
+                element={
+                  <AddReviewForm user={user} />
                 }
               />
               <Route path="*" element={<HomePageLoggedIn user={user} />} />
