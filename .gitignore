@@ -1,0 +1,27 @@
+# Node.js dependencies
+node_modules/
+
+# Build and cache directories
+client/build/
+client/.cache/
+server/build/
+server/.cache/
+
+# Environment files
+.env
+.env.local
+
+# OS-specific files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Logs
+*.log
+
+# Git Large File Storage (if applicable)
+*.psd
+*.mp4
+
+# Other unnecessary files
+client/dist/
+server/dist/
