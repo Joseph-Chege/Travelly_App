@@ -73,13 +73,14 @@ class DestinationList(Resource):
         description = request.json.get('description')
         location = request.json.get('location')
         category = request.json.get('category')
+        rating = request.json.get('rating')
         price = request.json.get('price')
 
 
         if not name or not image or not description or not location or not category or not price:
             return {'message': 'All fields are required.'}, 400
 
-        destination = Destination(name=name, image=image, description=description, location=location, category=category)
+        destination = Destination(name=name, image=image, description=description, location=location, category=category, price=price, rating=rating)
         db.session.add(destination)
         db.session.commit()
         return destination.to_dict(), 201
@@ -102,6 +103,7 @@ class DestinationDetail(Resource):
         description = request.json.get('description')
         location = request.json.get('location')
         category = request.json.get('category')
+        rating = request.json.get('rating')
         price = request.json.get('price')
 
         if not name and not image and not description and not location and not category and not price:
@@ -112,9 +114,36 @@ class DestinationDetail(Resource):
         destination.description = description
         destination.location = location
         destination.category = category
+        destination.rating = rating
         destination.price = price
         db.session.commit()
         return destination.to_dict(), 200
+    
+    def put(self, id):
+        # Retrieve the destination object
+        destination = Destination.query.filter(Destination.id == id).first()
+        if not destination:
+            return {'message': 'Destination not found.'}, 404
+
+        # Get the data from the request
+        data = request.get_json()
+
+        # Update the destination fields if present in the request data
+        for field in ['name', 'image', 'description', 'location', 'category', 'price', 'rating']:
+            if field in data:
+                setattr(destination, field, data[field])
+
+        try:
+            # Commit the changes to the database
+            db.session.commit()
+        except Exception as e:
+            # Rollback in case of an error
+            db.session.rollback()
+            return {'message': 'Failed to update destination', 'error': str(e)}, 500
+
+        return destination.to_dict(), 200
+
+
     
     def delete(self, id):
         destination = Destination.query.filter(Destination.id == id).first()
@@ -133,7 +162,7 @@ class AdminDestinationResource(Resource):
         user = User.query.filter_by(id=user_id).first()
         if user and user.is_admin:
             return True
-        return {'error': 'Admin privileges required'}, 403
+        return {'error': 'Admin privileges required'}, 405
 
     def get(self):
         if self.check_admin_privileges() is not True:
@@ -147,7 +176,7 @@ class AdminDestinationResource(Resource):
             return self.check_admin_privileges()
 
         data = request.get_json()
-        required_fields = ['name', 'image', 'description', 'location', 'category', 'price']
+        required_fields = ['name', 'image', 'description', 'location', 'category', 'price', 'rating']
         
         if not all(field in data for field in required_fields):
             return {'message': 'All fields are required.'}, 400
@@ -158,6 +187,7 @@ class AdminDestinationResource(Resource):
             description=data['description'],
             location=data['location'],
             category=data['category'],
+            rating=data['rating'],
             price=data['price']
 
         )
@@ -166,19 +196,32 @@ class AdminDestinationResource(Resource):
         return new_destination.to_dict(), 201
 
     def patch(self, id):
-        if self.check_admin_privileges() is not True:
-            return self.check_admin_privileges()
-
+        # Check admin privileges
+        admin_check = self.check_admin_privileges()
+        if not admin_check is True:
+            return admin_check
+        
+        # Retrieve the destination object
         destination = Destination.query.get(id)
         if not destination:
             return {'message': 'Destination not found.'}, 404
 
+        # Get the data from the request
         data = request.get_json()
-        for field in ['name', 'image', 'description', 'location', 'category', 'price']:
+
+        # Update the destination fields if present in the request data
+        for field in ['name', 'image', 'description', 'location', 'category', 'price', 'rating']:
             if field in data:
                 setattr(destination, field, data[field])
 
-        db.session.commit()
+        try:
+            # Commit the changes to the database
+            db.session.commit()
+        except Exception as e:
+            # Rollback in case of an error
+            db.session.rollback()
+            return {'message': 'Failed to update destination', 'error': str(e)}, 500
+
         return destination.to_dict(), 200
 
     def delete(self, id):
@@ -242,12 +285,6 @@ class ReviewDetail(Resource):
         return jsonify({'message': 'Review deleted successfully!'}), 200
     
 
-        
-        
-       
-
-
-
 api.add_resource(CheckSession, '/check_session', endpoint='/check_session')
 api.add_resource(Signup, '/signup', endpoint='/signup')
 api.add_resource(LogIn, '/login', endpoint='/login')
@@ -255,13 +292,13 @@ api.add_resource(Logout, '/logout', endpoint='/logout')
 api.add_resource(DestinationList, '/destinations', endpoint='/destinations')
 api.add_resource(DestinationDetail, '/destinations/<int:id>', endpoint='/destinations/<int:id>')
 api.add_resource(AdminDestinationResource, '/admin/destinations', endpoint='/admin/destinations')
+api.add_resource(AdminDestinationResource, '/admin/destinations/<int:id>', endpoint='/admin/destinations/<int:id>')
 api.add_resource(ReviewList, '/reviews')
 api.add_resource(ReviewDetail, '/reviews/<int:id>', endpoint='/reviews/<int:id>')
 api.add_resource(ReviewList, '/destinations/<int:id>/reviews', endpoint='/destinations/<int:id>/reviews')
+api.add_resource(AdminDestinationResource, '/admin/destinations/new', endpoint='/admin/destinations/new')
+
  
-
-
-
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
     

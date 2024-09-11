@@ -36,14 +36,13 @@ function AddReviewForm({ user }) {
         body: JSON.stringify({
           comment: comment,
           user_id: user.id,
-          destination_id: destination.id, // Now coming from useParams()
+          destination_id: destination.id,
         }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setSuccessMessage(data.message);
-        setComment(''); // Clear form after submission
+        setSuccessMessage('Review submitted successfully!');
+        setComment(''); 
       } else {
         const errorData = await response.json();
         setError(errorData.error);

@@ -20,7 +20,7 @@ function StarRating({ rating }) {
 }
 
 function Destination({ destination }) {
-  const { id, name, description, image, category, location, reviews, price } =
+  const { id, name, description, image, category, location, reviews, price, rating } =
     destination;
 
   return (
@@ -50,7 +50,7 @@ function Destination({ destination }) {
           <div>
             <div>
               <span className="text-gray-500 text-sm mr-2">
-                Rating: <StarRating rating={destination.rating} />
+                Rating: <StarRating rating={rating} />
               </span>
               <p className="flex gap-1 text-gray-700 font-semibold mb-2">
                 {reviews.length}{" "}
@@ -58,8 +58,12 @@ function Destination({ destination }) {
               </p>
             </div>
             <div className="text-gray-600 text-sm mb-4">
-              {reviews[0].comment}
-            </div>
+                    {reviews && reviews.length > 0 ? (
+                      reviews[0].comment
+                    ) : (
+                      <p>No reviews available</p>
+                    )}
+                  </div>
             <div className="text-gray-600 text-sm mb-4">
             </div>
             <hr className="border-gray-300 my-4" />

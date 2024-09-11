@@ -3,36 +3,35 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import Search from "../components/Search";
+import { Link } from "react-router-dom";
 
-function DestinationAdmin({ user }) {
+function DestinationAdmin({ updatedDestinations }) {
   const [destinations, setDestinations] = useState([]);
-  const [newDestination, setNewDestination] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch("/destinations")
-      .then((r) => r.json())
-      .then(setDestinations);
+      .then((r) => {
+        if (r.ok) {
+          r.json().then((data) => {
+            // Convert rating to number if it's a string
+            const processedData = data.map(dest => ({
+              ...dest,
+              rating: Number(dest.rating), // Ensure rating is a number
+              price: Number(dest.price)    // Ensure price is a number
+            }));
+            setDestinations(processedData);
+          });
+        }
+      });
   }, []);
 
-  const handleCreate = () => {
-    fetch("/destinations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: newDestination }),
-    })
-      .then((r) => r.json())
-      .then((newDest) => setDestinations([...destinations, newDest]));
-  };
-
-  const handleDelete = (id) => {
-    fetch(`/destinations/${id}`, {
-      method: "DELETE",
-    }).then(() => {
-      setDestinations(destinations.filter((dest) => dest.id !== id));
-    });
-  };
+  useEffect(() => {
+    if (updatedDestinations && updatedDestinations.length) {
+      setDestinations(updatedDestinations);
+    }
+  }, [updatedDestinations]);
 
   function StarRating({ rating }) {
     const stars = Array.from({ length: 5 }, (_, i) => i + 1);
@@ -48,25 +47,40 @@ function DestinationAdmin({ user }) {
     );
   }
 
-  return (
-    <>
-      <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-24 mb-10">
-        <h1 className="text-2xl font-bold mb-4">Welcome {user.username}</h1>
-        <h2 className="text-2xl font-bold mb-4">Admin: Manage Destinations</h2>
+  const handleDelete = (id) => {
+    fetch(`/destinations/${id}`, {
+      method: "DELETE",
+    }).then(() => {
+      setDestinations(destinations.filter((dest) => dest.id !== id));
+    });
+  };
 
-        <div className="mb-4">
-          <button
-            onClick={handleCreate}
-            className="mt-2 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-          >
+  const displayedDestinations = destinations.filter((destination) => {
+    return (
+      destination.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      destination.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      destination.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  return (
+    <div className="mr-32 ml-32">
+      <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-24 mb-20 mr-16 ml-16">
+        <h1 className="text-2xl font-bold mb-4">Welcome Admin</h1>
+      </div>
+      <div>
+        <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+      </div>
+      <div className="mb-4 flex justify-center items-center h-20">
+        <Link to={"/admin/destinations/new"}>
+          <button className="mt-2 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
             Add New Destination
           </button>
-        </div>
+        </Link>
       </div>
-
-      <div>
-        {destinations.map((dest) => (
-          <li
+      <div className="mr-16 ml-16">
+        {displayedDestinations.map((dest) => (
+          <div
             key={dest.id}
             className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
           >
@@ -114,17 +128,23 @@ function DestinationAdmin({ user }) {
                     </p>
                   </div>
                   <div className="text-gray-600 text-sm mb-4">
-                    {dest.reviews[0].comment}
+                    {dest.reviews && dest.reviews.length > 0 ? (
+                      dest.reviews[0].comment
+                    ) : (
+                      <p>No reviews available</p>
+                    )}
                   </div>
                   <div className="text-gray-600 text-sm mb-4"></div>
-                  <hr className="border-gray-300 my-4" />
+                  {/* <hr className="border-gray-300 my-4" /> */}
                   <div className="justify-between">
-                    <button
-                      onClick={() => handleDelete(dest.id)}
-                      className="bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 mr-16"
-                    >
-                      Update
-                    </button>
+                    <Link to={`/admin/destinations/${dest.id}`}>
+                      <button
+                        // onClick={() => handleDelete(dest.id)}
+                        className="bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-green-600 mr-16"
+                      >
+                        Update
+                      </button>
+                    </Link>
                     <button
                       onClick={() => handleDelete(dest.id)}
                       className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
@@ -135,10 +155,10 @@ function DestinationAdmin({ user }) {
                 </div>
               </div>
             </div>
-          </li>
+          </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

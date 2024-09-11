@@ -1,101 +1,60 @@
 import React, { useState, useEffect } from "react";
 import Destination from "./Destination";
+import Search from "../components/Search";
 
 function DestinationList({ destinations }) {
   // Initialize state
-  const [showBeach, setShowBeach] = useState([]);
-  const [showAdventure, setShowAdventure] = useState([]);
-  const [showRomantic, setShowRomantic] = useState([]);
-  const [showParks, setShowParks] = useState([]);
-  const [showLocal, setShowLocal] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Beach"); // Track selected category
-  const [bookedDestinations, setBookedDestinations] = useState([])
+  const [filteredDestinations, setFilteredDestinations] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Beach");
+  const [bookedDestinations, setBookedDestinations] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Display beach destinations by default
+  // Display beach destinations by default when component mounts or destinations update
   useEffect(() => {
     const beach_dests = destinations.filter(
       (destination) => destination.category === "Beach"
     );
-    setShowBeach(beach_dests);
+    setFilteredDestinations(beach_dests);
+    setSelectedCategory("Beach");
   }, [destinations]);
 
-  const toggleBeachList = () => {
-    const beach_dests = destinations.filter(
-      (destination) => destination.category === "Beach"
+  // Filter destinations based on category and search term
+  useEffect(() => {
+    const filtered = destinations.filter(
+      (destination) =>
+        destination.category === selectedCategory &&
+        destination.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setShowBeach(beach_dests);
-    setShowAdventure([]);
-    setShowRomantic([]);
-    setShowParks([]);
-    setShowLocal([]);
-    setSelectedCategory("Beach");
-  };
+    setFilteredDestinations(filtered);
+  }, [destinations, searchTerm, selectedCategory]);
 
-  const toggleAdventureList = () => {
-    const adventure_dests = destinations.filter(
-      (destination) => destination.category === "Adventure"
+  // Function to filter by category
+  const filterByCategory = (category) => {
+    const filtered = destinations.filter(
+      (destination) =>
+        destination.category === category &&
+        destination.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setShowAdventure(adventure_dests);
-    setShowBeach([]);
-    setShowRomantic([]);
-    setShowParks([]);
-    setShowLocal([]);
-    setSelectedCategory("Adventure");
-  };
-
-  const toggleRomanticList = () => {
-    const romantic_dests = destinations.filter(
-      (destination) => destination.category === "Romantic"
-    );
-    setShowRomantic(romantic_dests);
-    setShowBeach([]);
-    setShowAdventure([]);
-    setShowParks([]);
-    setShowLocal([]);
-    setSelectedCategory("Romantic");
-  };
-
-  const toggleParksList = () => {
-    const parks_dests = destinations.filter(
-      (destination) => destination.category === "Park"
-    );
-    setShowParks(parks_dests);
-    setShowBeach([]);
-    setShowAdventure([]);
-    setShowRomantic([]);
-    setShowLocal([]);
-    setSelectedCategory("Park");
-  };
-
-  const toggleLocalList = () => {
-    const local_dests = destinations.filter(
-      (destination) => destination.category === "Local"
-    );
-    setShowLocal(local_dests);
-    setShowBeach([]);
-    setShowAdventure([]);
-    setShowRomantic([]);
-    setShowParks([]);
-    setSelectedCategory("Local");
+    setFilteredDestinations(filtered);
+    setSelectedCategory(category);
   };
 
   return (
-    <div>
-      <h1 className="text-3xl text-gray-800 font-bold truncate block capitalize mb-8 mt-32 ml-8 text-center">
-        Bucket List Destinations
-      </h1>
-      <div className="flex justify-around gap-4 mr-16 ml-16">
+    <div className="mt-40">
+      <div className="mr-16 ml-16 ">
+        <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+      </div>
+
+      <div className="flex justify-around gap-4 mr-16 ml-16 mt-10">
         <div
           className={`cursor-pointer text-2xl font-semibold bg-beach-img bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 transform hover:scale-105 text-white border ${
             selectedCategory === "Beach"
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
           } flex items-center bg-custom-image-1 justify-center w-full h-50 md:w-80`}
-          onClick={toggleBeachList}
+          onClick={() => filterByCategory("Beach")}
         >
-          <div className="mt-40">
-            Beach
-          </div>
+          <div className="mt-40">Beach</div>
         </div>
 
         <div
@@ -104,11 +63,9 @@ function DestinationList({ destinations }) {
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
           } flex items-center bg-custom-image-2 justify-center w-full h-50 md:w-80`}
-          onClick={toggleAdventureList}
+          onClick={() => filterByCategory("Adventure")}
         >
-          <div className="mt-40">
-            Adventure
-          </div>
+          <div className="mt-40">Adventure</div>
         </div>
 
         <div
@@ -117,11 +74,9 @@ function DestinationList({ destinations }) {
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
           } flex items-center bg-custom-image-3 justify-center w-full h-50 md:w-80`}
-          onClick={toggleRomanticList}
+          onClick={() => filterByCategory("Romantic")}
         >
-          <div className="mt-40">
-            Romantic
-          </div>
+          <div className="mt-40">Romantic</div>
         </div>
 
         <div
@@ -130,11 +85,9 @@ function DestinationList({ destinations }) {
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
           } flex items-center bg-custom-image-4 justify-center w-full h-50 md:w-80`}
-          onClick={toggleParksList}
+          onClick={() => filterByCategory("Park")}
         >
-          <div className="mt-40">
-            Parks
-          </div>
+          <div className="mt-40">Parks</div>
         </div>
 
         <div
@@ -143,7 +96,7 @@ function DestinationList({ destinations }) {
               ? "border-green-600 border-4"
               : "border-gray-300 dark:border-gray-700"
           } flex items-center justify-center w-full h-50 md:w-80`}
-          onClick={toggleLocalList}
+          onClick={() => filterByCategory("Local")}
           style={{
             backgroundImage:
               "url(https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/07/ba/70/a8.jpg)",
@@ -151,9 +104,7 @@ function DestinationList({ destinations }) {
             backgroundPosition: "center",
           }}
         >
-          <div className="mt-40">
-            Local
-          </div>
+          <div className="mt-40">Local</div>
         </div>
       </div>
 
@@ -161,24 +112,13 @@ function DestinationList({ destinations }) {
         {selectedCategory} Destinations
       </h1>
 
-      {showBeach.map((destination) => (
-        <Destination key={destination.id} destination={destination} booked={bookedDestinations} setBooked={setBookedDestinations}  />
-      ))}
-
-      {showAdventure.map((destination) => (
-        <Destination key={destination.id} destination={destination} booked={bookedDestinations} setBooked={setBookedDestinations}  />
-      ))}
-
-      {showRomantic.map((destination) => (
-        <Destination key={destination.id} destination={destination} booked={bookedDestinations} setBooked={setBookedDestinations} />
-      ))}
-
-      {showParks.map((destination) => (
-        <Destination key={destination.id} destination={destination} booked={bookedDestinations} setBooked={setBookedDestinations} />
-      ))}
-
-      {showLocal.map((destination) => (
-        <Destination key={destination.id} destination={destination} booked={bookedDestinations} setBooked={setBookedDestinations} />
+      {filteredDestinations.map((destination) => (
+        <Destination
+          key={destination.id}
+          destination={destination}
+          booked={bookedDestinations}
+          setBooked={setBookedDestinations}
+        />
       ))}
     </div>
   );

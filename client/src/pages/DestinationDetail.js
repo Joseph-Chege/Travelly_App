@@ -24,7 +24,6 @@ function StarRating({ rating }) {
 function DestinationDetail({ onAddToBookedDestinations }) {
   const [selectedDestination, setSelectedDestination] = useState([]);
   const { id } = useParams(); // Get the 'id' from the URL parameters
-  const [isBooked, setIsBooked] = useState(false); // Flag to track if the user has booked this destination
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to toggle the dropdown
 
   useEffect(() => {
@@ -44,7 +43,6 @@ function DestinationDetail({ onAddToBookedDestinations }) {
   }
 
   const handleClick = () => {
-    setIsBooked(true);
     onAddToBookedDestinations(selectedDestination);
   };
 
@@ -52,12 +50,10 @@ function DestinationDetail({ onAddToBookedDestinations }) {
     setIsDropdownOpen(!isDropdownOpen); // Toggle the dropdown menu
   };
 
-  console.log(selectedDestination);
-
   return (
     <>
       <div>
-        <div className="flex flex-col max-w-4xl rounded-lg shadow-lg bg-white mx-auto my-8 border border-gray-200 p-6 mt-64">
+        <div className="flex flex-col max-w-4xl rounded-lg shadow-lg bg-white mx-auto my-8 border border-gray-200 p-6 mt-32">
           <h2 className="text-4xl font-semibold text-gray-800 truncate capitalize mb-4 text-center">
             {selectedDestination.name}
           </h2>
@@ -135,27 +131,21 @@ function DestinationDetail({ onAddToBookedDestinations }) {
             <hr className="border-gray-300 my-4" />
             <Link to="/destinations/your-destinations">
               <div>
-                {isBooked ? (
+      
                   <button
                     type="button"
-                    className="w-full md:w-32 bg-gray-600 text-white py-2 rounded-lg transition-colors shadow-sm"
-                    onClick={() => handleClick(selectedDestination)}
-                  >
-                    Booked!
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="w-full md:w-32 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors shadow-sm"
+                    className="w-full md:w-full text-lg bg-green-600 text-white py-5 rounded-lg hover:bg-green-700 transition-colors shadow-sm"
                     onClick={() => handleClick(selectedDestination)}
                   >
                     Book now
                   </button>
-                )}
               </div>
             </Link>
+            <br />
             <Link to={`/destinations/${id}/reviews`}>
-              <div>Visited? Leave a review</div>
+              <div class="flex items-center justify-center bg-white border border-gray-300 shadow-lg p-4 rounded-lg text-center text-lg font-semibold text-green-700 hover:text-green-800 transition duration-300 ease-in-out">
+                Visited? Leave a review
+              </div>
             </Link>
           </div>
         </div>

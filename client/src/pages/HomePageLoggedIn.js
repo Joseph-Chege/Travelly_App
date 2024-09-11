@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DestinationList from "../components/DestinationList";
 import DestinationAdmin from "./DestinationAdmin";
 
+
 function HomePageLoggedIn({ user }) {
   const [destinations, setDestinations] = useState([]);
 
@@ -12,7 +13,6 @@ function HomePageLoggedIn({ user }) {
       }
     });
   }, []);
-
 
 
   return (
