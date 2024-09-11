@@ -7,10 +7,6 @@ client/.cache/
 server/build/
 server/.cache/
 
-# Environment files
-.env
-.env.local
-
 # OS-specific files
 .DS_Store  # macOS
 Thumbs.db  # Windows
