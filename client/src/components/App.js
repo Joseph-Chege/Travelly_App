@@ -11,6 +11,7 @@ import DestinationAdmin from "../pages/DestinationAdmin";
 import AddReviewForm from "../pages/AddReviewForm";
 import EditDestination from "../pages/EditDestination";
 import NewDestinationForm from "../pages/NewDestinationForm";
+import Footer from "./Footer";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -121,6 +122,7 @@ function App() {
           )}
         </Routes>
       </main>
+      <Footer />
     </>
   );
 }

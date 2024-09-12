@@ -4,29 +4,28 @@ import BookedDestination from "../components/BookedDestination";
 import PriceCounter from "../components/PriceCounter";
 
 function YourDestinations({ booked, onRemove }) {
-  
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
       {booked.length === 0 ? (
         <Link to="/">
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-          <div className="bg-white shadow-lg rounded-lg p-6 text-center border-t-4 border-green-500">
-            <h1 className="text-2xl font-semibold text-gray-800 mb-4">
-              Your booked destinations will appear here
-            </h1>
-            <p className="text-gray-600">Start planning your next adventure!</p>
+          <div className="flex items-center justify-center h-full p-4">
+            <div className="bg-white shadow-lg rounded-lg p-6 text-center border-t-4 border-green-500 w-full max-w-md">
+              <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
+                Your booked destinations will appear here
+              </h1>
+              <p className="text-gray-600">Start planning your next adventure!</p>
+            </div>
           </div>
-        </div>
         </Link>
       ) : (
-        <div>
-          <h1 className="text-3xl text-gray-800 font-bold truncate block capitalize mb-8 mt-32 ml-8 text-center">
+        <div className="p-4">
+          <h1 className="text-2xl sm:text-3xl text-gray-800 font-bold mb-8 mt-8 text-center">
             Your Booked Destinations
           </h1>
-          <div>
+          <div className="mb-8">
             <PriceCounter booked={booked} />
           </div>
-          <div className="bg-amber-100 p-4 rounded-b-md">
+          <div className="bg-amber-100 p-4 rounded-lg">
             <ul className="flex flex-wrap justify-center gap-4">
               {booked.map((destination) => (
                 <BookedDestination
@@ -42,6 +41,5 @@ function YourDestinations({ booked, onRemove }) {
     </div>
   );
 }
-
 
 export default YourDestinations;
