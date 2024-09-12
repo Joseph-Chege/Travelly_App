@@ -68,7 +68,7 @@ const EditDestination = ({ onUpdateDestination }) => {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+    <div className="flex justify-center items-center mt-16 bg-gray-100 p-8">
       <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md sm:max-w-lg">
         <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-6 text-green-700">Edit Destination</h2>
         <form onSubmit={handleSubmit} className="space-y-4">

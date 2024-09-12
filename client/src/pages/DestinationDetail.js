@@ -44,15 +44,20 @@ function DestinationDetail({ onAddToBookedDestinations }) {
   };
 
   return (
-    <div className="flex flex-col max-w-4xl rounded-lg shadow-lg bg-white mx-auto my-8 border border-gray-200 p-4 sm:p-6 md:p-8 mt-12">
+    <div className="flex flex-col max-w-4xl rounded-lg shadow-lg bg-white mx-auto my-8 border border-gray-200 p-4 sm:p-6 md:p-8 mt-32">
   <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 truncate capitalize mb-4 text-center">
     {selectedDestination.name}
   </h2>
-  <img
-    className="w-full h-auto md:w-150 md:h-48 object-cover rounded-lg mb-4 md:mb-0"
-    src={selectedDestination.image}
-    alt={selectedDestination.name}
-  />
+  
+  {/* Image container with fixed size */}
+  <div className="flex justify-center mb-4 md:mb-0">
+    <img
+      className="w-96 h-96 md:w-[820px] md:h-[600px] object-cover rounded-lg"
+      src={selectedDestination.image}
+      alt={selectedDestination.name}
+    />
+  </div>
+
   <div className="flex flex-col justify-between">
     <div>
       <div className="flex flex-wrap items-center space-x-2">
@@ -71,6 +76,7 @@ function DestinationDetail({ onAddToBookedDestinations }) {
         Price: {selectedDestination.price} $ per day
       </p>
     </div>
+
     <div onClick={toggleDropdown} className="cursor-pointer">
       <span className="text-gray-500 text-sm mr-2">
         Rating:{" "}
@@ -82,15 +88,14 @@ function DestinationDetail({ onAddToBookedDestinations }) {
         {selectedDestination.reviews ? (
           <>
             {selectedDestination.reviews.length}{" "}
-            {selectedDestination.reviews.length === 1
-              ? "Review"
-              : "Reviews"}
+            {selectedDestination.reviews.length === 1 ? "Review" : "Reviews"}
           </>
         ) : (
           <span>No Reviews</span>
         )}
       </p>
     </div>
+
     {isDropdownOpen && selectedDestination.reviews && (
       <div className="mt-4 bg-gray-100 p-4 rounded-md shadow-lg">
         {selectedDestination.reviews.map((review, index) => (
@@ -107,7 +112,9 @@ function DestinationDetail({ onAddToBookedDestinations }) {
         ))}
       </div>
     )}
+    
     <hr className="border-gray-300 my-4" />
+
     <Link to="/destinations/your-destinations">
       <button
         type="button"
@@ -117,6 +124,7 @@ function DestinationDetail({ onAddToBookedDestinations }) {
         Book now
       </button>
     </Link>
+    
     <Link to={`/destinations/${id}/reviews`} className="mt-4">
       <div className="flex items-center justify-center bg-white border border-gray-300 shadow-lg p-4 rounded-lg text-center text-lg font-semibold text-green-700 hover:text-green-800 transition duration-300 ease-in-out">
         Visited? Leave a review

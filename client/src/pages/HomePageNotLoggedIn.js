@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function HomePageNotLoggedIn() {
   return (
-    <div className="flex items-center justify-center h-screen bg-custom-image-0 bg-cover bg-center mx-4 sm:mx-8 md:mx-16 lg:mx-32">
+    <div className="flex items-center justify-center h-screen bg-custom-image-0 bg-cover bg-center ">
       <div className="bg-white bg-opacity-75 p-6 sm:p-8 rounded-lg shadow-lg text-center max-w-xs sm:max-w-sm md:max-w-md">
         <h1 className="text-xl sm:text-2xl font-bold text-green-700 mb-4">
           Welcome to Travelly!

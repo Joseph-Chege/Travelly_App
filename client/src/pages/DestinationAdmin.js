@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import Search from "../components/Search";
+import { faLocationDot, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import Search from "../components/Search";
 
 function DestinationAdmin({ updatedDestinations }) {
   const [destinations, setDestinations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [openDropdowns, setOpenDropdowns] = useState({}); // Track dropdown state for each destination
 
   useEffect(() => {
     fetch("/destinations").then((r) => {
@@ -61,12 +62,19 @@ function DestinationAdmin({ updatedDestinations }) {
     );
   });
 
+  const toggleDropdown = (id) => {
+    setOpenDropdowns((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle dropdown for the specific destination
+    }));
+  };
+
   return (
-    <div className="px-4 sm:px-8 lg:px-16 py-8">
+    <div className="items-center px-4 sm:px-8 lg:px-16 py-12 border border-gray-200">
       <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg mb-12">
-        <h1 className="text-2xl font-bold mb-4">Welcome Admin</h1>
+        <h1 className="text-4xl text-center font-bold mb-4">Welcome Admin</h1>
       </div>
-      <div>
+      <div className="-mt-10">
         <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
       </div>
       <div className="mb-4 flex justify-center items-center h-20">
@@ -80,11 +88,11 @@ function DestinationAdmin({ updatedDestinations }) {
         {displayedDestinations.map((dest) => (
           <div
             key={dest.id}
-            className="flex flex-col md:flex-row justify-between items-center p-4 border border-gray-200 rounded-lg mb-4"
+            className="flex justify-center mb-8 border p-4 md:p-6"
           >
-            <div className="flex flex-col md:flex-row max-w-4xl rounded-lg shadow-lg bg-white w-full">
+            <div className="flex flex-col md:flex-row max-w-4xl w-full rounded-lg shadow-lg bg-white">
               <img
-                className="w-full md:w-1/2 h-64 md:h-auto object-cover rounded-lg mb-4 md:mb-0 md:mr-6"
+                className="w-full mt-2 md:w-1/2 h-64 md:h-auto object-cover rounded-lg md:mb-2 md:mr-6"
                 src={dest.image}
                 alt={dest.name}
               />
@@ -107,7 +115,11 @@ function DestinationAdmin({ updatedDestinations }) {
                     Price: {dest.price} $ per day
                   </p>
                 </div>
-                <div>
+
+                <div
+                  onClick={() => toggleDropdown(dest.id)}
+                  className="cursor-pointer"
+                >
                   <StarRating rating={dest.rating} />
                   <p className="flex gap-1 text-gray-700 font-semibold mb-2">
                     {dest.reviews.length}{" "}
@@ -119,7 +131,25 @@ function DestinationAdmin({ updatedDestinations }) {
                       : "No reviews available"}
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
+
+                {openDropdowns[dest.id] && dest.reviews && (
+                  <div className="mt-4 bg-gray-100 p-4 rounded-md shadow-lg">
+                    {dest.reviews.map((review, index) => (
+                      <div key={index} className="mb-4">
+                        <div className="flex justify-between items-center">
+                          <div className="text-gray-600 text-sm">
+                            <FontAwesomeIcon icon={faUser} className="mr-2" />
+                            {review.user.username}
+                          </div>
+                        </div>
+                        <p className="text-gray-700 mt-1">{review.comment}</p>
+                        <hr className="my-2" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center mt-6">
                   <Link to={`/admin/destinations/${dest.id}`}>
                     <button className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">
                       Update

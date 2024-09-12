@@ -11,7 +11,7 @@ import DestinationAdmin from "../pages/DestinationAdmin";
 import AddReviewForm from "../pages/AddReviewForm";
 import EditDestination from "../pages/EditDestination";
 import NewDestinationForm from "../pages/NewDestinationForm";
-import Footer from "./Footer";
+import Footer from "../components/Footer"; // Import the Footer component
 
 function App() {
   const [user, setUser] = useState(null);
@@ -61,9 +61,9 @@ function App() {
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <NavBar user={user} setUser={setUser} />
-      <main>
+      <main className="flex-grow">
         <Routes>
           {user ? (
             <>
@@ -123,7 +123,7 @@ function App() {
         </Routes>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 
