@@ -21,3 +21,4 @@ six==1.16.0
 sqlalchemy==1.4.42
 sqlalchemy-serializer==1.4.1
 zipp==3.9.0
+Flask-Bcrypt==1.0.1
