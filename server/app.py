@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 import json
 
-from flask import request, session, jsonify
+from flask import request, session, jsonify, render_template
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 
 from config import app, db, api, bcrypt
 from models import User, Destination, Review
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
+
 
 class CheckSession(Resource):
     def get(self):

@@ -10,10 +10,14 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 
-app = Flask(__name__)
+app = Flask(
+    __name__, 
+    static_url_path='',
+    static_folder='../client/build',
+    template_folder='../client/build'
+    )
 app.secret_key = b'\xb7E\x11\x0e\xfdK7\xa6\x7f\xb7p\xed\xbeZ\xa0o'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
