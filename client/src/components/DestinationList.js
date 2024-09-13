@@ -43,11 +43,11 @@ function DestinationList({ destinations, user }) {
     <div className="flex flex-col min-h-screen mt-8 justify-center">
       <div className="w-full">
         <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
-          <h1 className="text-4xl text-center font-bold mb-4">
+          <h1 className="text-3xl text-center font-bold mb-4">
             Welcome {user.username}
           </h1>
         </div>
-        <div className="sm:px-12 md:px-24 mr-10 ml-10">
+        <div className="sm:px-10 md:px-24 mr-5 ml-5">
           <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
         </div>
 
