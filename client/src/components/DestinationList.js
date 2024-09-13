@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Destination from "./Destination";
 import Search from "../components/Search";
 
-function DestinationList({ destinations }) {
+function DestinationList({ destinations, user }) {
   // State declarations
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Beach");
@@ -40,13 +40,18 @@ function DestinationList({ destinations }) {
   };
 
   return (
-    <div className="flex min-h-screen mt-30">
-      <div>
-        <div className="mr-16 ml-16">
+    <div className="flex flex-col min-h-screen mt-8 justify-center">
+      <div className="w-full">
+        <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
+          <h1 className="text-4xl text-center font-bold mb-4">
+            Welcome {user.username}
+          </h1>
+        </div>
+        <div className="sm:px-12 md:px-24 mr-10 ml-10">
           <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
         </div>
 
-        <div className="flex justify-around gap-4 mr-16 ml-16 mt-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4 sm:px-8 md:px-16 mt-10">
           {["Beach", "Adventure", "Romantic", "Park", "Local"].map(
             (category, index) => {
               const customBackgrounds = [

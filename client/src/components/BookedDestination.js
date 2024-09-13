@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 function BookedDestination({ booked_dest, onRemove }) {
-  const { name, image, location, price } = booked_dest;
+  const { name, image, location, price, } = booked_dest;
 
   return (
     <div className="p-6 border-b border-gray-200 mt-4 max-w-2xl mx-auto bg-white shadow-lg rounded-lg items-end">

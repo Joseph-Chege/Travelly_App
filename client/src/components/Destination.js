@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as fasStar } from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +11,7 @@ function StarRating({ rating }) {
   return (
     <div className="flex items-center space-x-1">
       {stars.map((star) => (
-        <span key={star} className="text-yellow-500 text-xl md:text-2xl">
+        <span key={star} className="text-yellow-500 text-2xl">
           <FontAwesomeIcon icon={star <= rating ? fasStar : farStar} />
         </span>
       ))}
@@ -20,7 +20,8 @@ function StarRating({ rating }) {
 }
 
 function Destination({ destination }) {
-  const { id, name, description, image, category, location, reviews, price, rating } = destination;
+  const { id, name, description, image, category, location, reviews, price, rating } =
+    destination;
 
   return (
     <Link to={`/destinations/${id}`}>

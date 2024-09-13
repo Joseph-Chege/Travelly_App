@@ -20,7 +20,7 @@ function HomePageLoggedIn({ user }) {
       ) : (
         <div>
           <ul className="flex justify-around flex-wrap gap-4 pt-8 pb-8">
-            <DestinationList destinations={destinations} />
+            <DestinationList destinations={destinations} user={user} />
           </ul>
         </div>
       )}
