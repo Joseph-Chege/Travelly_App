@@ -11,7 +11,7 @@ fake = Faker()
 with app.app_context():
 
     categories = ['Romantic', 'Adventure', 'Beach', 'Park', 'Local']
-    fixed_password = "AdminPassword123!"
+    fixed_password = "AdminPassword1234!"
 
     User.query.delete()
     Destination.query.delete()
