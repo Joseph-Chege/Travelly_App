@@ -10,7 +10,7 @@
 /* Log in screen */
 @layer utilities {
   .bg-custom-image-0 {
-    @apply bg-cover bg-center;
+    @apply w-full;
     background-image: url('./Images/nathan-cima-4aqH2utAPAs-unsplash.jpg');
   }
 }

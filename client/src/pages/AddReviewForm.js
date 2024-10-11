@@ -16,9 +16,6 @@ function AddReviewForm({ user }) {
     });
   }, [id]);
 
-
-  // console.log(destination)
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -52,15 +49,13 @@ function AddReviewForm({ user }) {
     }
   };
 
-    
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-lg p-6 text-center border-t-4 border-green-500 w-full max-w-lg"
+        className="bg-white shadow-lg rounded-lg p-6 text-center border-t-4 border-green-500 w-full max-w-md sm:max-w-lg"
       >
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
           Leave a Review
         </h2>
 
@@ -82,7 +77,7 @@ function AddReviewForm({ user }) {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             rows="4"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="Write your review here"
             required
           ></textarea>
@@ -90,7 +85,7 @@ function AddReviewForm({ user }) {
 
         <button
           type="submit"
-          className="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600"
+          className="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 transition duration-200"
         >
           Submit Review
         </button>

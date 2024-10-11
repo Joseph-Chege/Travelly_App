@@ -3,47 +3,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 function BookedDestination({ booked_dest, onRemove }) {
-  const { name, image, location, price } =
-    booked_dest;
-
-  
+  const { name, image, location, price, } = booked_dest;
 
   return (
-    <div>
-    <>
-      {
-        <div className="p-6 border-b border-gray-200 mt-8 max-w-xl mx-auto bg-white shadow-lg rounded-lg">
-          <div className="flex items-center gap-6">
-            <img
-              className="w-56 h-80 rounded-lg object-cover border-4 border-green-500"
-              src={image}
-              alt={name}
-            />
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-800">{name}</h2>
-              <div className="flex flex-wrap items-center space-x-2">
-          <FontAwesomeIcon icon={faLocationDot} size="xl" />
-          <p className="text-lg text-gray-600 mt-2 mb-4">
-            {location}
-          </p>
-        </div>
-            </div>
+    <div className="p-6 border-b border-gray-200 mt-4 max-w-2xl mx-auto bg-white shadow-lg rounded-lg items-end">
+      <div className="flex flex-col md:flex-row items-center gap-6">
+        <img
+          className="w-full h-60 md:w-72 md:h-96 rounded-lg object-cover border-4 border-green-500"
+          src={image}
+          alt={name}
+        />
+        <div className="flex-1">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 truncate">
+            {name}
+          </h2>
+          <div className="flex items-center space-x-2 mt-2">
+            <FontAwesomeIcon icon={faLocationDot} size="lg" />
+            <p className="text-lg md:text-xl text-gray-600">
+              {location}
+            </p>
           </div>
-          <div className="flex justify-between items-center mt-6">
-            <span className="text-lg font-medium text-gray-700">
+          <div className="flex flex-col mt-4 md:mt-6 space-x-4">
+            <span className="text-lg md:text-xl font-medium text-gray-700 mb-8">
               Price: ${price} per day
             </span>
             <button
-              className="text-lg font-semibold text-green-600 hover:text-green-800"
+              className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 item-start"
               onClick={() => onRemove(booked_dest)}
             >
               Remove
             </button>
           </div>
         </div>
-      }
-    </>
-  </div>  
+      </div>
+    </div>
   );
 }
 

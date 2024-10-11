@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4bd04554.css",
+    "main.js": "/static/js/main.3396c45e.js",
+    "static/media/leo_visions-Gsrk7FduXsE-unsplash.jpg": "/static/media/leo_visions-Gsrk7FduXsE-unsplash.d626d967f4584f1f5698.jpg",
+    "static/media/maarten-van-den-heuvel-Siuwr3uCir0-unsplash.jpg": "/static/media/maarten-van-den-heuvel-Siuwr3uCir0-unsplash.cb24a911908427f64764.jpg",
+    "static/media/dex-ezekiel-HB__aFWJJSU-unsplash.jpg": "/static/media/dex-ezekiel-HB__aFWJJSU-unsplash.e092186f684ed0e7956c.jpg",
+    "static/media/nathan-cima-4aqH2utAPAs-unsplash.jpg": "/static/media/nathan-cima-4aqH2utAPAs-unsplash.4df1157d35f84e3befae.jpg",
+    "static/media/scott-goodwill-y8Ngwq34_Ak-unsplash.jpg": "/static/media/scott-goodwill-y8Ngwq34_Ak-unsplash.8581509b5e674c2bef0e.jpg",
+    "index.html": "/index.html",
+    "main.4bd04554.css.map": "/static/css/main.4bd04554.css.map",
+    "main.3396c45e.js.map": "/static/js/main.3396c45e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4bd04554.css",
+    "static/js/main.3396c45e.js"
+  ]
+}

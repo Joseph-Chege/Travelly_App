@@ -26,9 +26,9 @@ with app.app_context():
     db.session.commit()
 
     users = []
-    for _ in range(5):
+    for _ in range(10):
         user = User(
-            username=fake.user_name(),
+            username=fake.name(),
             email=fake.email(),
             password_hash=bcrypt.generate_password_hash(fake.password(length=12)),
             created_at=fake.date_time_this_century(before_now=True, after_now=False)
@@ -39,7 +39,7 @@ with app.app_context():
 
     
     destinations = []
-    for _ in range(5):
+    for _ in range(30):
         destination = Destination(
             name=fake.city(),
             image=fake.image_url(),
